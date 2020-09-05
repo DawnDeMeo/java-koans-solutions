@@ -1,5 +1,7 @@
 # Java Koans 
 
+This repo contains my own solutions. Please see the [original repo](https://github.com/matyb/java-koans) for a clean copy to try for yourself.
+
 [![Build Status](https://travis-ci.org/matyb/java-koans.png?branch=master)](https://travis-ci.org/matyb/java-koans)
 
 Running Instructions:
