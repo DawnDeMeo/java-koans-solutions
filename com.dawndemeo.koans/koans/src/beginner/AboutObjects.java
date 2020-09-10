@@ -30,6 +30,7 @@ public class AboutObjects {
     public void objectToString() {
         Object object = new Object();
         // TODO: Why is it best practice to ALWAYS override toString?
+        // To get something human readable!
         String expectedToString = MessageFormat.format("{0}@{1}", Object.class.getName(), Integer.toHexString(object.hashCode()));
         assertEquals(expectedToString, object.toString()); // hint: object.toString()
     }
