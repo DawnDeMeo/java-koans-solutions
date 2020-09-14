@@ -12,20 +12,20 @@ public class AboutEquality {
     public void sameObject() {
         Object a = new Object();
         Object b = a;
-        assertEquals(a == b, __);
+        assertEquals(a == b, true);
     }
 
     @Koan
     public void equalObject() {
         Integer a = new Integer(1);
         Integer b = new Integer(1);
-        assertEquals(a.equals(b), __);
-        assertEquals(b.equals(a), __);
+        assertEquals(a.equals(b), true);
+        assertEquals(b.equals(a), true);
     }
 
     @Koan
     public void noObjectShouldBeEqualToNull() {
-        assertEquals(new Object().equals(null), __);
+        assertEquals(new Object().equals(null), false);
     }
 
     static class Car {
@@ -42,13 +42,32 @@ public class AboutEquality {
             // Change this implementation to match the equals contract
             // Car objects with same horsepower and name values should be considered equal
             // http://download.oracle.com/javase/6/docs/api/java/lang/Object.html#equals(java.lang.Object)
-            return false;
+            if (this == other)
+                return true;
+            if (other == null)
+                return false;
+            if (getClass() != other.getClass())
+                return false;
+            Car car = (Car) other;
+            if (horsepower != car.horsepower)
+                return false;
+            if (name == null) {
+                if (car.name != null)
+                    return false;
+            } else if (!name.equals(car.name))
+                return false;
+            return true;
         }
 
         @Override
         public int hashCode() {
             // @see http://download.oracle.com/javase/6/docs/api/java/lang/Object.html#hashCode()
-            return super.hashCode();
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + horsepower;
+            result = prime * result + ((name == null) ? 0 : name.hashCode());
+            
+            return result;
         }
     }
 
@@ -103,7 +122,10 @@ public class AboutEquality {
 
         @Override
         public int hashCode() {
-            return 4000;
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((color == null) ? 0 : color.hashCode());
+            return result;
         }
 
         @Override
@@ -119,9 +141,11 @@ public class AboutEquality {
         Chicken chicken1 = new Chicken();
         chicken1.color = "black";
         Chicken chicken2 = new Chicken();
-        assertEquals(chicken1.equals(chicken2), __);
-        assertEquals(chicken1.hashCode() == chicken2.hashCode(), __);
+        assertEquals(chicken1.equals(chicken2), false);
+        assertEquals(chicken1.hashCode() == chicken2.hashCode(), false);
         // Does this still fit the hashCode contract? Why (not)?
+        // No. "As much as is reasonably practical, the hashCode method defined by class Object does return distinct integers for distinct objects."
+        // Since it Chicken.hashCode always returns 4000 (pre-edit) that is not good programming practice.
         // Fix the Chicken class to correct this.
     }
 
